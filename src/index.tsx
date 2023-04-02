@@ -56,14 +56,17 @@ const CappedEl = forwardRef<CappedElProps, As>(
     return (
       <Tag
         ref={ref}
-        {...passthroughProps}
+        // The theme styles first, then the passthrough props
+        // This allows us to override the theme styles with the passthrough props, because they were in the sx before
+        // , meaning they couldn't be overridden except by sx
+        {...{...styleConfig, ...passthroughProps}}
         // Stop Chakra from looking up styles in the theme.components.Text object
         // since we've already done that above.
         // This allows us to pass custom styles while still leveraging the props
         // the <Text> component would normally accept.
         styleConfig={{}}
-        // The theme styels first, then `sx` prop, then calculated cappedStyles
-        sx={{ ...styleConfig, ...props.sx, ...cappedStyles }}
+        // First the `sx` prop, then calculated cappedStyles
+        sx={{ ...props.sx, ...cappedStyles }}
       >
         {isTruncated || noOfLines ? (
           // The inner <span> is necessary to avoid accidentally cutting off
