@@ -26,7 +26,7 @@
   "scripts": {
     "build": "preconstruct build",
     "release": "yarn build && changeset version && echo \"Note the new version in package.json, revert the change there, commit the changelog, then run 'yarn np'\"",
-    "postinstall": "npm run build"
+    "postinstall": "npm install; npm run build"
   },
   "preconstruct": {
     "entrypoints": [
